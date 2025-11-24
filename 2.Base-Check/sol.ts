@@ -16,7 +16,7 @@ import * as fs from "fs";
 
 const DIGITS: string = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-// region [📚 Reference Solutions] (Fold this region to hide answers)
+// #region [📚 Reference Solutions] (Fold this region to hide answers)
 
 /**
  * Method 1: Regular Expressions
@@ -48,11 +48,10 @@ function solution2_Set(n: string, base: number): boolean {
   }
   return true;
 }
-
-// endregion
+// #endregion
 
 // ======================================================================
-//  ✍️ [Practice Area]
+//  #region [✍️ Practice Area]
 //  Please write your solution between the markers below.
 // ======================================================================
 // <PRACTICE_START>
@@ -62,12 +61,11 @@ function isValidNumber(n: string, base: number): boolean {
   return false;
 }
 // <PRACTICE_END>
+// #endregion
 
 // ======================================================================
-//  🚀 [Test Runner & Auto-Reset] (Do not modify below this line)
+//  #region [🚀 Test Runner & Auto-Reset] (Do not modify below this line)
 // ======================================================================
-
-// region Test Logic & Reset Script
 
 interface TestCase {
   n: string;
@@ -193,4 +191,4 @@ function runTests(): void {
 // Execute
 runTests();
 
-// endregion
+// #endregion

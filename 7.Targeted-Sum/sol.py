@@ -1,67 +1,30 @@
-import re
+import os
 import sys
 
 # ======================================================================
-# 🧠 CHALLENGE: Base Check (Python Version)
+# 🧠 CHALLENGE: Targeted Sum (Python Version)
 # ======================================================================
 # Description:
-# Given a string representing a number (n) and an integer base (from 2 to 36),
-# determine whether the number is valid in that specific base.
+# Given an array of numbers and an integer target, find two unique numbers
+# in the array that add up to the target value.
 #
 # 📋 Rules:
-# 1. The string 'n' may contain integers (0-9) and letters (A-Z).
-# 2. The validation must be case-insensitive ('a' == 'A').
-# 3. The 'base' will be an integer between 2 and 36.
-# 4. Return True if valid, False otherwise.
+# 1. Return a list containing the INDICES of the two numbers.
+# 2. The indices in the result must be in ascending order (e.g., [0, 1]).
+# 3. You may not use the same element (same index) twice.
+# 4. If no two numbers sum up to the target, return string "Target not found".
 #
-# 💡 Examples of Valid Digits:
-# - Base 2:  0, 1
-# - Base 10: 0-9
-# - Base 16: 0-9, A-F
-# - Base 36: 0-9, A-Z
+# 💡 Examples:
+# - find_target([2, 7, 11, 15], 9)      => [0, 1]
+# - find_target([3, 2, 4, 5], 6)        => [1, 2]
+# - find_target([1, 3, 5, 6, 7, 8], 15) => [4, 5]
+# - find_target([1, 3, 5, 7], 14)       => "Target not found"
 # ======================================================================
 
-DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+# region [📚 Reference Solutions] (Solutions hidden as requested)
 
-# region [📚 Reference Solutions] (Fold this region to hide answers)
-
-
-def solution_1_regex(n, base):
-    """
-    Method 1: Regular Expressions
-    """
-    if not (2 <= base <= 36):
-        return False
-    allowed = DIGITS[:base]
-    pattern = f"^[{allowed}]+$"
-    return re.fullmatch(pattern, n, re.IGNORECASE) is not None
-
-
-def solution_2_loop(n, base):
-    """
-    Method 2: Algorithmic Lookup (Set)
-    """
-    if not (2 <= base <= 36):
-        return False
-    allowed = set(DIGITS[:base])
-    for char in n.upper():
-        if char not in allowed:
-            return False
-    return True
-
-
-def solution_3_pythonic(n, base):
-    """
-    Method 3: Pythonic Built-in
-    """
-    if not (2 <= base <= 36):
-        return False
-    try:
-        int(n, base)
-        return True
-    except ValueError:
-        return False
-
+# (Reference solutions have been removed.)
+# (Focus on implementing your own logic in the Practice Area below!)
 
 # endregion
 
@@ -71,12 +34,10 @@ def solution_3_pythonic(n, base):
 #  Please write your solution between the markers below.
 # ======================================================================
 # <PRACTICE_START>
-def is_valid_number(n, base):
+def find_target(nums, target):
     # TODO: Implement your solution here.
     # (This function will automatically reset once you pass all tests)
-    return False
-
-
+    return "Target not found"
 # <PRACTICE_END>
 # endregion
 
@@ -91,10 +52,10 @@ def reset_practice_area():
     MARKER_END = "# <PRACTICE_" + "END>"
 
     default_code_lines = [
-        "def is_valid_number(n, base):\n",
+        "def find_target(nums, target):\n",
         "    # TODO: Implement your solution here.\n",
         "    # (This function will automatically reset once you pass all tests)\n",
-        "    return False\n",
+        '    return "Target not found"\n',
     ]
 
     try:
@@ -126,41 +87,39 @@ def reset_practice_area():
 
 if __name__ == "__main__":
     test_cases = [
-        ("10101", 2, True),
-        ("10201", 2, False),
-        ("76543210", 8, True),
-        ("9876543210", 8, False),
-        ("9876543210", 10, True),
-        ("ABC", 10, False),
-        ("ABC", 16, True),
-        ("Z", 36, True),
-        ("ABC", 20, True),
-        ("4B4BA9", 16, True),
-        ("5G3F8F", 16, False),
-        ("5G3F8F", 17, True),
-        ("abc", 10, False),
-        ("abc", 16, True),
-        ("AbC", 16, True),
-        ("z", 36, True),
+        ([2, 7, 11, 15], 9, [0, 1]),
+        ([3, 2, 4, 5], 6, [1, 2]),
+        ([1, 3, 5, 6, 7, 8], 15, [4, 5]),
+        ([1, 3, 5, 7], 14, "Target not found"),
     ]
 
-    print(f"\n🧪 Testing your [is_valid_number] function...\n")
-    header = f"{'Input':<12} | {'Base':<6} | {'Expected':<8} | {'Actual':<8} | Status"
+    print(f"\n🧪 Testing your [find_target] function...\n")
+
+    # Header
+    header = f"{'Input Array':<20} | {'Target':<6} | {'Expected':<18} | {'Actual':<18} | Status"
     print(header)
     print("-" * len(header))
 
     all_pass = True
-    for n, base, expected in test_cases:
+    for nums, target, expected in test_cases:
         try:
-            result = is_valid_number(n, base)
-        except:
+            result = find_target(nums, target)
+        except Exception as e:
             result = "Error"
 
-        status_icon = "✅ PASS" if result == expected else "❌ FAIL"
-        if result != expected:
+        # Check equality
+        is_match = result == expected
+        status_icon = "✅ PASS" if is_match else "❌ FAIL"
+        if not is_match:
             all_pass = False
+
+        # Formatting for display
+        nums_str = str(nums)
+        if len(nums_str) > 18:
+            nums_str = nums_str[:15] + "..."
+
         print(
-            f"{n:<12} | {base:<6} | {str(expected):<8} | {str(result):<8} | {status_icon}"
+            f"{nums_str:<20} | {str(target):<6} | {str(expected):<18} | {str(result):<18} | {status_icon}"
         )
 
     print("-" * len(header))

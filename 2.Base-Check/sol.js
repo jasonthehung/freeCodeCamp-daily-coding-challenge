@@ -16,7 +16,7 @@ const fs = require("fs");
 
 const DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-// region [📚 Reference Solutions] (Fold this region to hide answers)
+// #region [📚 Reference Solutions] (Fold this region to hide answers)
 
 /**
  * Method 1: Regular Expressions
@@ -55,22 +55,19 @@ function solution2_Set(n, base) {
 /**
  * Method 3: Functional / Array Method (Modern JS)
  * Best for: Clean, readable one-liners.
- * Note: We avoid `parseInt` here because JS parseInt is lenient
- * (e.g., parseInt("10z", 2) returns 2, it doesn't fail strict validation).
  */
 function solution3_Functional(n, base) {
   if (base < 2 || base > 36) return false;
 
   const allowed = DIGITS.slice(0, base);
-
   // Check if every character in input is included in the allowed string
   return [...n.toUpperCase()].every((char) => allowed.includes(char));
 }
 
-// endregion
+// #endregion
 
 // ======================================================================
-//  ✍️ [Practice Area]
+//  #region [✍️ Practice Area]
 //  Please write your solution between the markers below.
 // ======================================================================
 // <PRACTICE_START>
@@ -80,12 +77,11 @@ function isValidNumber(n, base) {
   return false;
 }
 // <PRACTICE_END>
+// #endregion
 
 // ======================================================================
-//  🚀 [Test Runner & Auto-Reset] (Do not modify below this line)
+//  #region [🚀 Test Runner & Auto-Reset] (Do not modify below this line)
 // ======================================================================
-
-// region Test Logic & Reset Script
 
 function resetPracticeArea() {
   console.log("\n🔄 Resetting Practice Area to default state...");
@@ -95,9 +91,9 @@ function resetPracticeArea() {
 
   const defaultCode = [
     "function isValidNumber(n, base) {",
-    "    // TODO: Implement your solution here.",
-    "    // (This function will automatically reset once you pass all tests)",
-    "    return false;",
+    "  // TODO: Implement your solution here.",
+    "  // (This function will automatically reset once you pass all tests)",
+    "  return false;",
     "}",
   ].join("\n");
 
@@ -201,4 +197,4 @@ function runTests() {
 // Execute
 runTests();
 
-// endregion
+// #endregion
