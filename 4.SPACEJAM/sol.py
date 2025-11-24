@@ -4,5 +4,5 @@ def space_jam(s):
     upper = no_space.upper()
 
     result = "  ".join(upper)
-    
+
     return result
