@@ -1,21 +1,24 @@
 package main
 
-func isBalanced(s string) bool {
-	vowels := map[rune]bool{
-		'a': true, 'e': true, 'i': true, 'o': true, 'u': true,
-		'A': true, 'E': true, 'I': true, 'O': true, 'U': true,
+func isVowel(c rune) bool {
+	switch c {
+	case 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U':
+		return true
 	}
+	return false
+}
 
+func isBalanced(s string) bool {
 	r := []rune(s)
 	n := len(r)
 	half := n / 2
 	balance := 0
 
 	for i := 0; i < half; i++ {
-		if vowels[r[i]] {
+		if isVowel(r[i]) {
 			balance++
 		}
-		if vowels[r[n-1-i]] {
+		if isVowel(r[n-1-i]) {
 			balance--
 		}
 	}
