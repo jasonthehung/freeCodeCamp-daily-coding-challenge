@@ -104,6 +104,8 @@ def is_valid_number(n, base):
     # TODO: Implement your solution here.
     # (This function will automatically reset once you pass all tests)
     return False
+
+
 # <PRACTICE_END>
 
 
