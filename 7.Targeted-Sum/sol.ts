@@ -42,6 +42,36 @@ function findTarget_HashMap(nums: number[], target: number): number[] | string {
   return "Target not found";
 }
 
+/**
+ * Method 2: Hash Map (using Object & Array.entries)
+ * Best for: Scenarios where you need O(n) efficiency and clean index access.
+ * * Key Improvements:
+ * 1. Uses `Array.entries()` to get both index and value directly (fixes duplicate bugs).
+ * 2. One-pass approach: Time O(n).
+ */
+function findTarget_Object(nums: number[], target: number): number[] | string {
+  // Define an object to store numbers we have seen: { number: index }
+  const map: { [key: number]: number } = {};
+
+  // Iterate using entries() which yields [index, value]
+  // This is safer than indexOf() because 'index' is the current position
+  for (const [index, num] of nums.entries()) {
+    const complement = target - num;
+
+    // Check if the complement exists in our record
+    if (complement in map) {
+      // Return the stored index of the complement and the current index
+      return [map[complement], index];
+    }
+
+    // Store the current number and its index for future lookups
+    // (No 'else' needed due to the return statement above)
+    map[num] = index;
+  }
+
+  return "Target not found";
+}
+
 // #endregion
 
 // ======================================================================

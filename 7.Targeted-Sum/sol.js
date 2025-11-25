@@ -22,8 +22,55 @@ const fs = require("fs");
 
 // #region [📚 Reference Solutions] (Solutions hidden as requested)
 
-// (Reference solutions have been removed.)
-// (Focus on implementing your own logic in the Practice Area below!)
+/**
+ * Method 1: One-pass Hash Table (Optimized)
+ * Best for: Large datasets where O(n) time speed is critical.
+ */
+function findTarget_HashMap(nums, target) {
+  const map = new Map();
+
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+
+    if (map.has(complement)) {
+      return [map.get(complement), i];
+    }
+
+    map.set(nums[i], i);
+  }
+
+  return "Target not found";
+}
+
+/**
+ * Method 2: Hash Map (using Object & Array.entries)
+ * Best for: Scenarios where you need O(n) efficiency and clean index access.
+ * * Key Improvements:
+ * 1. Uses `Array.entries()` to get both index and value directly (fixes duplicate bugs).
+ * 2. One-pass approach: Time O(n).
+ */
+function findTarget_Object(nums, target) {
+  // Define an object to store numbers we have seen: { number: index }
+  const map = {};
+
+  // Iterate using entries() which yields [index, value]
+  // This is safer than indexOf() because 'index' is the current position
+  for (const [index, num] of nums.entries()) {
+    const complement = target - num;
+
+    // Check if the complement exists in our record
+    if (complement in map) {
+      // Return the stored index of the complement and the current index
+      return [map[complement], index];
+    }
+
+    // Store the current number and its index for future lookups
+    // (No 'else' needed due to the return statement above)
+    map[num] = index;
+  }
+
+  return "Target not found";
+}
 
 // #endregion
 
