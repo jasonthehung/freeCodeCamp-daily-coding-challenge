@@ -20,7 +20,41 @@ import * as fs from "fs";
 // ======================================================================
 
 // #region [📚 Reference Solutions] (Solutions hidden as requested)
-// (Focus on implementing your own logic in the Practice Area below!)
+/**
+ * Method 1: Iterative (Loop) - Recommended
+ * Best for: Performance and memory safety.
+ * Logic: Multiplies numbers from 1 to n.
+ * Complexity: Time O(n) | Space O(1)
+ */
+function factorialIterative(n: number): number {
+  // Optimization: 0! and 1! are both 1.
+  // We can start result at 1 and return immediately if n <= 1.
+  let result = 1;
+
+  // We loop from 2 up to n (multiplying by 1 is useless)
+  for (let i = 2; i <= n; i++) {
+    result *= i;
+  }
+
+  return result;
+}
+
+/**
+ * Method 2: Recursive
+ * Best for: Mathematical clarity and code brevity.
+ * Risk: Can cause "Stack Overflow" if n is very large (though n=20 is safe).
+ * Complexity: Time O(n) | Space O(n) (due to call stack)
+ */
+function factorialRecursive(n: number): number {
+  // Base case: 0! = 1 and 1! = 1
+  if (n <= 1) {
+    return 1;
+  }
+
+  // Recursive step: n! = n * (n-1)!
+  return n * factorialRecursive(n - 1);
+}
+
 // #endregion
 
 // ======================================================================

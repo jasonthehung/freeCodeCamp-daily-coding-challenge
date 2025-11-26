@@ -80,8 +80,25 @@ function findTarget_Object(nums, target) {
 // ======================================================================
 // <PRACTICE_START>
 function findTarget(nums, target) {
-  // TODO: Implement your solution here.
-  // (This function will automatically reset once you pass all tests)
+  // Define an object to store numbers we have seen: { number: index }
+  const map = {};
+
+  // Iterate using entries() which yields [index, value]
+  // This is safer than indexOf() because 'index' is the current position
+  for (const [index, num] of nums.entries()) {
+    const complement = target - num;
+
+    // Check if the complement exists in our record
+    if (complement in map) {
+      // Return the stored index of the complement and the current index
+      return [map[complement], index];
+    }
+
+    // Store the current number and its index for future lookups
+    // (No 'else' needed due to the return statement above)
+    map[num] = index;
+  }
+
   return "Target not found";
 }
 // <PRACTICE_END>

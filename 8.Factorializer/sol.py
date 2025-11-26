@@ -1,3 +1,4 @@
+import math
 import os
 import sys
 
@@ -21,7 +22,40 @@ import sys
 # ======================================================================
 
 # region [📚 Reference Solutions] (Solutions hidden as requested)
-# (Focus on implementing your own logic in the Practice Area below!)
+
+
+def factorial_iterative(n: int) -> int:
+    """
+    Method 1: Iterative (Loop)
+    Best for: General efficiency.
+    """
+    result = 1
+    # Loop from 2 to n (inclusive)
+    for i in range(2, n + 1):
+        result *= i
+    return result
+
+
+def factorial_recursive(n: int) -> int:
+    """
+    Method 2: Recursive
+    Best for: Demonstrating understanding of recursion.
+    """
+    # Base case
+    if n <= 1:
+        return 1
+    # Recursive step
+    return n * factorial_recursive(n - 1)
+
+
+def factorial_builtin(n: int) -> int:
+    """
+    Method 3: Built-in Math Library
+    Best for: Production code (highly optimized C implementation).
+    """
+    return math.factorial(n)
+
+
 # endregion
 
 

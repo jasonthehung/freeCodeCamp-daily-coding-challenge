@@ -23,8 +23,32 @@ import sys
 
 # region [📚 Reference Solutions] (Solutions hidden as requested)
 
-# (Reference solutions have been removed.)
-# (Focus on implementing your own logic in the Practice Area below!)
+"""
+Method 1: One-pass Hash Table (Python Standard)
+Best for: General use. This corresponds to both JS `Map` and `Object` approaches.
+Complexity: Time O(n) | Space O(n)
+"""
+
+
+def find_target_dict(nums, target):
+    # Dictionary to store seen numbers: { number: index }
+    seen = {}
+
+    # enumerate() is the Python equivalent of JS .entries()
+    # It gives us the index 'i' and the value 'num' in one go.
+    for i, num in enumerate(nums):
+        complement = target - num
+
+        # Check if complement is in the dictionary keys
+        if complement in seen:
+            # Return the stored index and the current index
+            return [seen[complement], i]
+
+        # Store the current number and its index
+        seen[num] = i
+
+    return "Target not found"
+
 
 # endregion
 
@@ -38,6 +62,8 @@ def find_target(nums, target):
     # TODO: Implement your solution here.
     # (This function will automatically reset once you pass all tests)
     return "Target not found"
+
+
 # <PRACTICE_END>
 # endregion
 
