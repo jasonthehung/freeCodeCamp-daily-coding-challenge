@@ -1,4 +1,4 @@
-import * as fs from "fs";
+const fs = require("fs");
 
 // ======================================================================
 // 🧠 CHALLENGE: Sum of Squares
@@ -23,12 +23,9 @@ import * as fs from "fs";
 
 /**
  * Method 1: Iterative Approach
- * Best for: Simplicity and small inputs.
- * Complexity: Time O(n) | Space O(1)
  */
-function sumOfSquares_Iterative(n: number): number {
+function sumOfSquares_Iterative(n) {
   let res = 0;
-  // Use multiplication (i * i) instead of Math.pow for 10x better performance
   for (let i = 1; i <= n; i++) {
     res += i * i;
   }
@@ -37,10 +34,9 @@ function sumOfSquares_Iterative(n: number): number {
 
 /**
  * Method 2: Mathematical Formula (Optimal)
- * Best for: High performance (instant result regardless of n).
- * Complexity: Time O(1) | Space O(1)
+ * Note: Returns an integer result instantly.
  */
-function sumOfSquares_Math(n: number): number {
+function sumOfSquares_Math(n) {
   return (n * (n + 1) * (2 * n + 1)) / 6;
 }
 // #endregion
@@ -50,13 +46,8 @@ function sumOfSquares_Math(n: number): number {
 //  Please write your solution between the markers below.
 // ======================================================================
 // <PRACTICE_START>
-function sumOfSquares(n: number): number {
-  let res = 1;
-  for (let i = 2; i <= n; i++) {
-    res += Math.pow(i, 2);
-  }
-  console.log(res);
-  return res;
+function sumOfSquares(n) {
+  return n * (n + 1) * ((n + 2) / 6);
 }
 // <PRACTICE_END>
 // #endregion
@@ -72,7 +63,7 @@ function resetPracticeArea() {
   const MARKER_END = "// <PRACTICE_" + "END>";
 
   const defaultCode = [
-    "function sumOfSquares(n: number): number {",
+    "function sumOfSquares(n) {",
     "  // TODO: Implement your solution here.",
     "  return 0;",
     "}",
@@ -104,18 +95,13 @@ function resetPracticeArea() {
 
     fs.writeFileSync(currentFile, newLines.join("\n"), "utf8");
     console.log("✨ Reset complete! The file is ready for a fresh start.");
-  } catch (e: any) {
+  } catch (e) {
     console.log(`⚠️ Reset failed: ${e.message}`);
   }
 }
 
-type TestCase = {
-  n: number;
-  expected: number;
-};
-
 function runTests() {
-  const testCases: TestCase[] = [
+  const testCases = [
     { n: 5, expected: 55 },
     { n: 10, expected: 385 },
     { n: 25, expected: 5525 },
@@ -125,8 +111,7 @@ function runTests() {
 
   console.log(`\n🧪 Testing your [sumOfSquares] function...\n`);
 
-  const pad = (str: string, len: number) =>
-    (str + " ".repeat(len)).slice(0, len);
+  const pad = (str, len) => (str + " ".repeat(len)).slice(0, len);
 
   const header = `${pad("Input (n)", 10)} | ${pad("Expected", 15)} | ${pad(
     "Actual",
@@ -138,7 +123,7 @@ function runTests() {
   let allPass = true;
 
   testCases.forEach(({ n, expected }) => {
-    let result: any;
+    let result;
     try {
       result = sumOfSquares(n);
     } catch (e) {

@@ -1,47 +1,49 @@
 import * as fs from "fs";
 
 // ======================================================================
-// 🧠 CHALLENGE: Sum of Squares
+// 🧠 CHALLENGE: 3 Strikes
 // ======================================================================
 // Description:
-// Given a positive integer n (up to 1,000), return the sum of all the
-// integers squared from 1 up to n.
-//
-// Formula: 1² + 2² + 3² + ... + n²
+// Given an integer n (between 1 and 10,000), return a count of how many
+// numbers from 1 up to n (inclusive) have a square that contains
+// at least one digit '3'.
 //
 // 📋 Rules:
-// 1. n will be a positive integer between 1 and 1,000.
-// 2. Return the calculated sum.
+// 1. n will be an integer between 1 and 10,000.
+// 2. Calculate the square of each number from 1 to n.
+// 3. Check if the string representation of that square contains the character '3'.
+// 4. Return the count of such numbers.
 //
 // 💡 Examples:
-// - sumOfSquares(5)    => 55  (1 + 4 + 9 + 16 + 25)
-// - sumOfSquares(10)   => 385
-// - sumOfSquares(1000) => 333833500
+// - squaresWithThree(1)   => 0   (1^2 = 1, no '3')
+// - squaresWithThree(10)  => 1   (Only 6^2 = 36 contains '3')
+// - squaresWithThree(100) => 19
 // ======================================================================
 
 // #region [📚 Reference Solutions] (Solutions hidden as requested)
 
 /**
- * Method 1: Iterative Approach
- * Best for: Simplicity and small inputs.
- * Complexity: Time O(n) | Space O(1)
+ * Method: Mathematical (Modulo & Trunc)
+ * Best for: High performance. Avoids string conversion overhead.
+ * Complexity: Time O(N) | Space O(1)
  */
-function sumOfSquares_Iterative(n: number): number {
-  let res = 0;
-  // Use multiplication (i * i) instead of Math.pow for 10x better performance
-  for (let i = 1; i <= n; i++) {
-    res += i * i;
-  }
-  return res;
-}
+function squaresWithThree_Math(n: number): number {
+  let count = 0;
 
-/**
- * Method 2: Mathematical Formula (Optimal)
- * Best for: High performance (instant result regardless of n).
- * Complexity: Time O(1) | Space O(1)
- */
-function sumOfSquares_Math(n: number): number {
-  return (n * (n + 1) * (2 * n + 1)) / 6;
+  for (let i = 1; i <= n; i++) {
+    let square = i * i;
+
+    while (square > 0) {
+      // Check last digit
+      if (square % 10 === 3) {
+        count++;
+        break;
+      }
+      // Remove last digit using Math.trunc
+      square = Math.trunc(square / 10);
+    }
+  }
+  return count;
 }
 // #endregion
 
@@ -50,13 +52,22 @@ function sumOfSquares_Math(n: number): number {
 //  Please write your solution between the markers below.
 // ======================================================================
 // <PRACTICE_START>
-function sumOfSquares(n: number): number {
-  let res = 1;
-  for (let i = 2; i <= n; i++) {
-    res += Math.pow(i, 2);
+function squaresWithThree(n: number): number {
+  let count = 0;
+
+  for (let i = 1; i <= n; i++) {
+    let square = i * i;
+
+    while (square > 0) {
+      if (square % 10 === 3) {
+        count++;
+        break;
+      }
+      square = Math.trunc(square / 10);
+    }
   }
-  console.log(res);
-  return res;
+
+  return count;
 }
 // <PRACTICE_END>
 // #endregion
@@ -72,7 +83,7 @@ function resetPracticeArea() {
   const MARKER_END = "// <PRACTICE_" + "END>";
 
   const defaultCode = [
-    "function sumOfSquares(n: number): number {",
+    "function squaresWithThree(n: number): number {",
     "  // TODO: Implement your solution here.",
     "  return 0;",
     "}",
@@ -116,21 +127,21 @@ type TestCase = {
 
 function runTests() {
   const testCases: TestCase[] = [
-    { n: 5, expected: 55 },
-    { n: 10, expected: 385 },
-    { n: 25, expected: 5525 },
-    { n: 500, expected: 41791750 },
-    { n: 1000, expected: 333833500 },
+    { n: 1, expected: 0 },
+    { n: 10, expected: 1 },
+    { n: 100, expected: 19 },
+    { n: 1000, expected: 326 },
+    { n: 10000, expected: 4531 },
   ];
 
-  console.log(`\n🧪 Testing your [sumOfSquares] function...\n`);
+  console.log(`\n🧪 Testing your [squaresWithThree] function...\n`);
 
   const pad = (str: string, len: number) =>
     (str + " ".repeat(len)).slice(0, len);
 
-  const header = `${pad("Input (n)", 10)} | ${pad("Expected", 15)} | ${pad(
+  const header = `${pad("Input (n)", 10)} | ${pad("Expected", 10)} | ${pad(
     "Actual",
-    15
+    10
   )} | Status`;
   console.log(header);
   console.log("-".repeat(header.length));
@@ -140,7 +151,7 @@ function runTests() {
   testCases.forEach(({ n, expected }) => {
     let result: any;
     try {
-      result = sumOfSquares(n);
+      result = squaresWithThree(n);
     } catch (e) {
       result = "Error";
     }
@@ -151,9 +162,9 @@ function runTests() {
     if (!isMatch) allPass = false;
 
     console.log(
-      `${pad(String(n), 10)} | ${pad(String(expected), 15)} | ${pad(
+      `${pad(String(n), 10)} | ${pad(String(expected), 10)} | ${pad(
         String(result),
-        15
+        10
       )} | ${statusIcon}`
     );
   });

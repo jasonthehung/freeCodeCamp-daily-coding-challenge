@@ -1,48 +1,51 @@
-import * as fs from "fs";
+const fs = require("fs");
 
 // ======================================================================
-// 🧠 CHALLENGE: Sum of Squares
+// 🧠 CHALLENGE: Mile Pace
 // ======================================================================
 // Description:
-// Given a positive integer n (up to 1,000), return the sum of all the
-// integers squared from 1 up to n.
-//
-// Formula: 1² + 2² + 3² + ... + n²
+// Given a distance in miles (number) and a total time in "MM:SS" format,
+// return the average pace per mile as a string in "MM:SS" format.
 //
 // 📋 Rules:
-// 1. n will be a positive integer between 1 and 1,000.
-// 2. Return the calculated sum.
+// 1. Return the average time it took to run each mile.
+// 2. The output format must be "MM:SS".
+// 3. Ensure leading zeros are added where needed (e.g., "04:36", not "4:36").
+// 4. Round the seconds to the nearest whole number.
 //
 // 💡 Examples:
-// - sumOfSquares(5)    => 55  (1 + 4 + 9 + 16 + 25)
-// - sumOfSquares(10)   => 385
-// - sumOfSquares(1000) => 333833500
+// - milePace(3, "24:00")     => "08:00"
+// - milePace(1, "06:45")     => "06:45"
+// - milePace(2, "07:00")     => "03:30"
+// - milePace(26.2, "120:35") => "04:36"
 // ======================================================================
 
-// #region [📚 Reference Solutions] (Solutions hidden as requested)
+// #region [📚 Reference Solutions]
 
 /**
- * Method 1: Iterative Approach
- * Best for: Simplicity and small inputs.
- * Complexity: Time O(n) | Space O(1)
+ * Method: Arithmetic Conversion
+ * Logic: Convert "MM:SS" -> Total Seconds -> Divide -> Reformat.
  */
-function sumOfSquares_Iterative(n: number): number {
-  let res = 0;
-  // Use multiplication (i * i) instead of Math.pow for 10x better performance
-  for (let i = 1; i <= n; i++) {
-    res += i * i;
-  }
-  return res;
+function milePace(distance, time) {
+  const [minStr, secStr] = time.split(":");
+
+  // Calculate total seconds
+  const totalSeconds = parseInt(minStr) * 60 + parseInt(secStr);
+
+  // Calculate pace in seconds and round to nearest whole number
+  const paceInSeconds = Math.round(totalSeconds / distance);
+
+  // Convert back to minutes and seconds
+  const paceMin = Math.floor(paceInSeconds / 60);
+  const paceSec = paceInSeconds % 60;
+
+  // Format with leading zeros (e.g., "3" -> "03")
+  return `${String(paceMin).padStart(2, "0")}:${String(paceSec).padStart(
+    2,
+    "0"
+  )}`;
 }
 
-/**
- * Method 2: Mathematical Formula (Optimal)
- * Best for: High performance (instant result regardless of n).
- * Complexity: Time O(1) | Space O(1)
- */
-function sumOfSquares_Math(n: number): number {
-  return (n * (n + 1) * (2 * n + 1)) / 6;
-}
 // #endregion
 
 // ======================================================================
@@ -50,13 +53,9 @@ function sumOfSquares_Math(n: number): number {
 //  Please write your solution between the markers below.
 // ======================================================================
 // <PRACTICE_START>
-function sumOfSquares(n: number): number {
-  let res = 1;
-  for (let i = 2; i <= n; i++) {
-    res += Math.pow(i, 2);
-  }
-  console.log(res);
-  return res;
+function milePace(miles, time) {
+  // TODO: Implement your solution here.
+  return "00:00";
 }
 // <PRACTICE_END>
 // #endregion
@@ -72,9 +71,9 @@ function resetPracticeArea() {
   const MARKER_END = "// <PRACTICE_" + "END>";
 
   const defaultCode = [
-    "function sumOfSquares(n: number): number {",
+    "function milePace(miles, time) {",
     "  // TODO: Implement your solution here.",
-    "  return 0;",
+    '  return "00:00";',
     "}",
   ].join("\n");
 
@@ -104,43 +103,36 @@ function resetPracticeArea() {
 
     fs.writeFileSync(currentFile, newLines.join("\n"), "utf8");
     console.log("✨ Reset complete! The file is ready for a fresh start.");
-  } catch (e: any) {
+  } catch (e) {
     console.log(`⚠️ Reset failed: ${e.message}`);
   }
 }
 
-type TestCase = {
-  n: number;
-  expected: number;
-};
-
 function runTests() {
-  const testCases: TestCase[] = [
-    { n: 5, expected: 55 },
-    { n: 10, expected: 385 },
-    { n: 25, expected: 5525 },
-    { n: 500, expected: 41791750 },
-    { n: 1000, expected: 333833500 },
+  const testCases = [
+    { miles: 3, time: "24:00", expected: "08:00" },
+    { miles: 1, time: "06:45", expected: "06:45" },
+    { miles: 2, time: "07:00", expected: "03:30" },
+    { miles: 26.2, time: "120:35", expected: "04:36" },
   ];
 
-  console.log(`\n🧪 Testing your [sumOfSquares] function...\n`);
+  console.log(`\n🧪 Testing your [milePace] function...\n`);
 
-  const pad = (str: string, len: number) =>
-    (str + " ".repeat(len)).slice(0, len);
+  const pad = (str, len) => (str + " ".repeat(len)).slice(0, len);
 
-  const header = `${pad("Input (n)", 10)} | ${pad("Expected", 15)} | ${pad(
-    "Actual",
-    15
-  )} | Status`;
+  const header = `${pad("Miles", 8)} | ${pad("Time", 8)} | ${pad(
+    "Expected",
+    10
+  )} | ${pad("Actual", 10)} | Status`;
   console.log(header);
   console.log("-".repeat(header.length));
 
   let allPass = true;
 
-  testCases.forEach(({ n, expected }) => {
-    let result: any;
+  testCases.forEach(({ miles, time, expected }) => {
+    let result;
     try {
-      result = sumOfSquares(n);
+      result = milePace(miles, time);
     } catch (e) {
       result = "Error";
     }
@@ -151,10 +143,10 @@ function runTests() {
     if (!isMatch) allPass = false;
 
     console.log(
-      `${pad(String(n), 10)} | ${pad(String(expected), 15)} | ${pad(
-        String(result),
-        15
-      )} | ${statusIcon}`
+      `${pad(String(miles), 8)} | ${pad(time, 8)} | ${pad(
+        expected,
+        10
+      )} | ${pad(String(result), 10)} | ${statusIcon}`
     );
   });
 
