@@ -53,19 +53,8 @@ def squares_with_three_math(n: int) -> int:
 # ======================================================================
 # <PRACTICE_START>
 def squares_with_three(n):
-    count = 0
-
-    for i in range(1, n):
-        square = i * i
-        while square > 0:
-            if square % 10 == 3:
-                count += 1
-                break
-            square = square // 10
-
-    return count
-
-
+    # TODO: Implement your solution here.
+    return 0
 # <PRACTICE_END>
 # endregion
 

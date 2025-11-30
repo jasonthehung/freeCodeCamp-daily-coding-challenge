@@ -53,21 +53,8 @@ function squaresWithThree_Math(n: number): number {
 // ======================================================================
 // <PRACTICE_START>
 function squaresWithThree(n: number): number {
-  let count = 0;
-
-  for (let i = 1; i <= n; i++) {
-    let square = i * i;
-
-    while (square > 0) {
-      if (square % 10 === 3) {
-        count++;
-        break;
-      }
-      square = Math.trunc(square / 10);
-    }
-  }
-
-  return count;
+  // TODO: Implement your solution here.
+  return 0;
 }
 // <PRACTICE_END>
 // #endregion
